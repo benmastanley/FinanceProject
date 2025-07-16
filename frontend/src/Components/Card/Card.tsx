@@ -1,31 +1,27 @@
 import React from "react";
 import "./Card.css";
+import { CompanySearch } from "../../company";
 
 interface Props {
-  companyName: string;
-  ticker: string;
-  price: number;
-  description?: string;
+  id: string;
+  key: string;
+  searchResult: CompanySearch;
 }
 
-const Card: React.FC<Props> = ({ companyName, ticker, price }) => {
+const Card: React.FC<Props> = ({ id, searchResult }: Props) => {
   return (
     <div className="card">
-      <img
-        src="https://images.unsplash.com/photo-1745872260939-e1f29a53610a?q=80&w=687&auto=format&fit=crop"
-        alt="Image"
-      />
+      <img alt="Company Logo" />
       <div className="details">
         <h2>
-          {companyName} ({ticker})
+          {searchResult.name} ({searchResult.symbol})
         </h2>
-        <p>${price}</p>
+        <p>{searchResult.currency}</p>
       </div>
       <p className="info">
-        This is a description of the card. It provides some information about
-        the content.
+        {searchResult.exchangeShortName} -
+        {searchResult.stockExchange || "No description available."}
       </p>
-      <button className="card-button">Click Me</button>
     </div>
   );
 };
