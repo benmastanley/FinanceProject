@@ -5,9 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   searchResults: CompanySearch[];
+  onPortfolioCreate: (e: React.SyntheticEvent) => void;
 }
 
-const CardList: React.FC<Props> = ({ searchResults }: Props): JSX.Element => {
+const CardList: React.FC<Props> = ({
+  searchResults,
+  onPortfolioCreate,
+}: Props): JSX.Element => {
   return (
     <div>
       {searchResults.length === 0 ? (
@@ -18,6 +22,7 @@ const CardList: React.FC<Props> = ({ searchResults }: Props): JSX.Element => {
             id={company.symbol}
             key={uuidv4()} // Using uuid to ensure unique keys
             searchResult={company}
+            onPortfolioCreate={onPortfolioCreate}
           />
         ))
       )}

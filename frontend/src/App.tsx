@@ -16,26 +16,32 @@ function App() {
     console.log(`Searching for: ${event.target.value}`);
   }
 
-  const onClick = async (e: SyntheticEvent) => {
+  const onSearchSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
     const result = await searchCompanies(search);
     if (typeof result === "string") {
-      setSearch(result);
-      console.error("Error fetching search results:", result);
+      setServerError(result);
     } else if (Array.isArray(result.data)) {
-      console.log("Search results:", result.data);
       setSearchResults(result.data);
     }
-    console.log("Search results state updated:", searchResults);
+  };
+
+  const onPortfolioCreate = (e: SyntheticEvent) => {
+    e.preventDefault();
+    console.log("Portfolio create event triggered:", e);
   };
 
   return (
     <div className="App">
       <Search
-        onClick={onClick}
+        onSearchSubmit={onSearchSubmit}
         search={search}
         handleSearchChange={handleSearchChange}
       />
-      <CardList searchResults={searchResults} />
+      <CardList
+        searchResults={searchResults}
+        onPortfolioCreate={onPortfolioCreate}
+      />
       {serverError && (
         <div className="error-message">Unable to connect to API</div>
       )}
