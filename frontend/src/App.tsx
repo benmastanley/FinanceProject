@@ -5,9 +5,11 @@ import CardList from "./Components/CardList/CardList";
 import Search from "./Components/Search/Search";
 import { CompanySearch } from "./company";
 import { searchCompanies } from "./api";
+import ListPortfolio from "./Components/Portfolio/ListPortfolio/ListPortfolio";
 
 function App() {
   const [search, setSearch] = useState<string>("");
+  const [portfolioValues, setPortfolioValues] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState<string>("");
 
@@ -26,9 +28,22 @@ function App() {
     }
   };
 
-  const onPortfolioCreate = (e: SyntheticEvent) => {
+  const onPortfolioCreate = (e: any) => {
     e.preventDefault();
-    console.log("Portfolio create event triggered:", e);
+    if (portfolioValues.includes(e.target[0].value)) {
+      console.log("This symbol is already in your portfolio.");
+    } else {
+      const updatedPortfolio = [...portfolioValues, e.target[0].value];
+      setPortfolioValues(updatedPortfolio);
+    }
+  };
+
+  const onPortfolioDelete = (e: any) => {
+    e.preventDefault();
+    const updatedPortfolio = portfolioValues.filter(
+      (s) => s !== e.target[0].value
+    );
+    setPortfolioValues(updatedPortfolio);
   };
 
   return (
@@ -37,6 +52,10 @@ function App() {
         onSearchSubmit={onSearchSubmit}
         search={search}
         handleSearchChange={handleSearchChange}
+      />
+      <ListPortfolio
+        portfolioValues={portfolioValues}
+        onPortfolioDelete={onPortfolioDelete}
       />
       <CardList
         searchResults={searchResults}
