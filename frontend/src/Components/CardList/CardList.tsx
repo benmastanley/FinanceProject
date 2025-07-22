@@ -15,7 +15,9 @@ const CardList: React.FC<Props> = ({
   return (
     <div>
       {searchResults.length === 0 ? (
-        <p>No search results found. Please try a different query.</p>
+        <p className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+          No results!
+        </p>
       ) : (
         searchResults.map((company) => (
           <Card
